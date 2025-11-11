@@ -8,7 +8,6 @@ public class GlobusProjectApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(GlobusProjectApplication.class, args);
-        Object
     }
 
 }
