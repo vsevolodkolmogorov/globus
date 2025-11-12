@@ -3,6 +3,8 @@ package ru.globus.globusproject.dto.request;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import ru.globus.globusproject.model.Currency;
+
 import java.math.BigDecimal;
 
 @Data
@@ -15,7 +17,7 @@ public class TransactionRequestDto {
     @Size(max = 255)
     private String description;
     @NotNull
-    private BigDecimal exchangeRateUsed;
+    private Long currencyId;
     @NotNull
     private Long fromAccountId;
     @NotNull

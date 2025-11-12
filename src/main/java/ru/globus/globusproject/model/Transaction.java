@@ -15,8 +15,11 @@ import java.time.LocalDateTime;
 public class Transaction extends BaseEntity {
     private BigDecimal amount;
     private String description;
-    private BigDecimal exchangeRateUsed;
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @ManyToOne
+    @JoinColumn(name = "currency_id")
+    private Currency currency;
 
     @ManyToOne
     @JoinColumn(name = "from_account_id")
@@ -26,20 +29,20 @@ public class Transaction extends BaseEntity {
     @JoinColumn(name = "to_account_id")
     private Account toAccount;
 
-    public Transaction(BigDecimal amount, String description, BigDecimal exchangeRateUsed,
+    public Transaction(BigDecimal amount, String description, Currency currency,
                        Account fromAccount, Account toAccount) {
         this.amount = amount;
         this.description = description;
-        this.exchangeRateUsed = exchangeRateUsed;
+        this.currency = currency;
         this.fromAccount = fromAccount;
         this.toAccount = toAccount;
     }
 
-    public Transaction(BigDecimal amount, String description, BigDecimal exchangeRateUsed,
+    public Transaction(BigDecimal amount, String description, Currency currency,
                        LocalDateTime createdAt, Account fromAccount, Account toAccount) {
         this.amount = amount;
         this.description = description;
-        this.exchangeRateUsed = exchangeRateUsed;
+        this.currency = currency;
         this.createdAt = createdAt;
         this.fromAccount = fromAccount;
         this.toAccount = toAccount;
@@ -51,7 +54,7 @@ public class Transaction extends BaseEntity {
                 "id=" + getId() + '\'' +
                 ", amount=" + amount +
                 ", description='" + description +
-                ", exchangeRateUsed=" + exchangeRateUsed +
+                ", currencyId=" + currency.getId() +
                 ", createdAt=" + createdAt +
                 ", fromAccount=" + fromAccount.getId() +
                 ", toAccount=" + toAccount.getId() +
