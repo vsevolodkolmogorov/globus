@@ -14,7 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import ru.globus.globusproject.dto.request.ClientRequestDto;
 import ru.globus.globusproject.dto.response.ClientResponseDto;
-import ru.globus.globusproject.exception.ClientAlreadyExisted;
+import ru.globus.globusproject.exception.ClientAlreadyExistedException;
 import ru.globus.globusproject.exception.ClientNotFoundException;
 import ru.globus.globusproject.model.Client;
 import ru.globus.globusproject.repository.ClientRepository;
@@ -157,8 +157,8 @@ class ClientServiceImplTest {
     void created_shouldReturnResponseDto_whenClientAlreadyExisted() {
         Mockito.when(repository.findClientByEmail(Mockito.any(String.class))).thenReturn(client);
 
-        ClientAlreadyExisted exception = Assertions.assertThrows(
-                ClientAlreadyExisted.class,
+        ClientAlreadyExistedException exception = Assertions.assertThrows(
+                ClientAlreadyExistedException.class,
                 () -> service.create(clientRequestDto)
         );
 

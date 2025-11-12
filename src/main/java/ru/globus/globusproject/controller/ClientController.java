@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.globus.globusproject.dto.request.ClientRequestDto;
 import ru.globus.globusproject.dto.response.ClientResponseDto;
-import ru.globus.globusproject.service.ClientService;
+import ru.globus.globusproject.service.interfaces.ClientService;
 
 @RestController
 @RequestMapping("/api/clients")
@@ -25,7 +25,7 @@ public class ClientController {
 
     @GetMapping("/{id}")
     public ClientResponseDto getById(@NotNull @PathVariable Long id) {
-        log.info("Fetching user by id {}", id);
+        log.info("Fetching client by id {}", id);
         return clientService.getById(id);
     }
 
@@ -34,7 +34,7 @@ public class ClientController {
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Min(1) int size
     ) {
-        log.info("Fetching all users by page {} and size {}",
+        log.info("Fetching all clients by page {} and size {}",
                 page, size);
         Pageable pageable = PageRequest.of(page, size);
         return clientService.getAll(pageable);
@@ -42,13 +42,13 @@ public class ClientController {
 
     @PostMapping
     public ClientResponseDto create(@Valid @RequestBody ClientRequestDto clientRequestDto) {
-        log.info("Creating new user with email {}", clientRequestDto.getEmail());
+        log.info("Creating new client with email {}", clientRequestDto.getEmail());
         return clientService.create(clientRequestDto);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@NotNull @PathVariable Long id) {
-        log.info("Deleting user with id {}", id);
+        log.info("Deleting client with id {}", id);
         clientService.delete(id);
     }
 }
