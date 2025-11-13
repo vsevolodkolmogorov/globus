@@ -28,8 +28,7 @@ public class CurrencyUpdateServiceImpl implements CurrencyUpdateService {
     public void updateCurrencies() {
         ValCursDto response = cbrClient.getDailyRates();
         if (response == null || response.getValutes() == null) {
-            log.warn("ЦБ не вернул данные");
-            // TODO: EXCEPTION
+            log.warn("The Central Bank did not return the data");
             return;
         }
 
@@ -57,6 +56,6 @@ public class CurrencyUpdateServiceImpl implements CurrencyUpdateService {
                     );
         });
 
-        log.info("Курсы валют обновлены на дату {}", date);
+        log.info("Exchange rates updated as of date {}", date);
     }
 }
