@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.globus.globusproject.dto.response.CurrencyResponseDto;
 import ru.globus.globusproject.service.interfaces.CurrencyService;
+import ru.globus.globusproject.service.interfaces.CurrencyUpdateService;
 
 @RestController
 @RequestMapping("/api/currencies")
@@ -20,6 +21,7 @@ import ru.globus.globusproject.service.interfaces.CurrencyService;
 public class CurrencyController {
 
     private final CurrencyService currencyService;
+    private final CurrencyUpdateService currencyUpdateService;
 
     @GetMapping("/{id}")
     public CurrencyResponseDto getById(@NotNull @PathVariable Long id) {
@@ -27,10 +29,23 @@ public class CurrencyController {
         return currencyService.getById(id);
     }
 
-    @GetMapping
-    public CurrencyResponseDto getById(@NotNull @RequestParam String charCode) {
+    @GetMapping("/byCharCode")
+    public CurrencyResponseDto getByCharCode(@NotNull @RequestParam String charCode) {
         log.info("Fetching currency by charCode {}", charCode);
         return currencyService.getByCharCode(charCode);
+    }
+
+    /**
+     * Test endpoint to trigger currency update manually.
+     * Should not be called in production as updates are handled automatically
+     * by the scheduler.
+     *
+     * @return status message
+     */
+    @PostMapping("/update")
+    public String updateCurrencies() {
+        currencyUpdateService.updateCurrencies();
+        return "Currency update completed!";
     }
 
     @GetMapping
