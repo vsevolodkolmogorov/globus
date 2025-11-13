@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/test
-    username: admin
-    password: admin
+    url: jdbc:postgresql://127.0.0.1:5433/postgres_globus
+    username: globus
+    password: password
     driver-class-name: org.postgresql.Driver
 
   jpa:
