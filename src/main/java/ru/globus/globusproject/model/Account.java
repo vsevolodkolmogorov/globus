@@ -31,6 +31,10 @@ public class Account extends BaseEntity {
         this.currency = currency;
     }
 
+    public Account(Long id) {
+        this.setId(id);
+    }
+
     @Override
     public String toString() {
         return "Account{" +

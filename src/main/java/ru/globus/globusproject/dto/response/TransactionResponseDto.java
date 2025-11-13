@@ -1,5 +1,6 @@
 package ru.globus.globusproject.dto.response;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -13,7 +14,7 @@ public class TransactionResponseDto {
     private Long id;
     private BigDecimal amount;
     private String description;
-    private BigDecimal exchangeRateUsed;
+    private Long currencyId;
     private LocalDateTime createdAt;
     private Long fromAccountId;
     private Long toAccountId;
