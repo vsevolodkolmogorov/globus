@@ -14,12 +14,15 @@ import ru.globus.globusproject.dto.request.TransactionRequestDto;
 import ru.globus.globusproject.dto.response.TransactionResponseDto;
 import ru.globus.globusproject.exception.DifferentCurrenciesException;
 import ru.globus.globusproject.exception.TransactionNotFoundException;
+import ru.globus.globusproject.kafka.EventPublisher;
 import ru.globus.globusproject.model.Account;
 import ru.globus.globusproject.model.Transaction;
 import ru.globus.globusproject.repository.TransactionRepository;
 import ru.globus.globusproject.service.interfaces.TransactionService;
 import ru.globus.globusproject.service.interfaces.internal.AccountInternalService;
 import ru.globus.globusproject.utils.mapper.TransactionMapper;
+
+import static ru.globus.globusproject.dto.kafka.KafkaTopics.TRANSACTION_EVENT;
 
 @Service
 @Slf4j
@@ -29,6 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository repository;
     private final AccountInternalService accountService;
+    private final EventPublisher eventPublisher;
     private final TransactionMapper mapper;
 
     @Override
@@ -56,6 +60,7 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction entity = mapper.toEntity(transactionRequestDto);
         Transaction transaction = repository.save(entity);
         TransactionResponseDto responseDto = mapper.toDto(transaction);
+        eventPublisher.publish(TRANSACTION_EVENT.name, responseDto.getId(), responseDto);
         log.info("Created transaction response with id {}, from AccountId {} to AccountId {}",
                 responseDto.getId(), responseDto.getFromAccountId(), responseDto.getToAccountId());
         return responseDto;
