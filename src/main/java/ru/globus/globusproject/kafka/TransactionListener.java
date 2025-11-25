@@ -11,7 +11,7 @@ import static org.apache.kafka.common.requests.DeleteAclsResponse.log;
 
 @Service
 @RequiredArgsConstructor
-public class NotificationListener {
+public class TransactionListener {
 
     @KafkaListener(topics = "transaction.event", groupId = "notification-group",
             containerFactory = "kafkaListenerContainerFactory")
